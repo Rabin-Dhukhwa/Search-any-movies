@@ -1,23 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import { ListContainer } from "./components/ListContainer";
+import { SearchForm } from "./components/SearchForm";
 
 function App() {
+  const [movieList, setMovieList] = useState([]);
+
+  const addToList = (movie) => {
+    // console.log(movie);
+    const arg = movieList.filter((item) => item.imdbID !== movie.imdbID);
+    setMovieList([...arg, movie]);
+  };
+  console.log(movieList);
+
+  const handleOnDelete = (id) => {
+    const arg = movieList.filter((item) => item.imdbID !== id);
+    setMovieList(arg);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper bg-dark text-warning ">
+      <div className="container">
+        <div className="row">
+          <div className="col text-center mt-5 fs-1">
+            {/* TItle section  */}
+            Search Any Movies
+            <br />
+            <hr />
+          </div>
+        </div>
+
+        {/* form section */}
+        <SearchForm addToList={addToList} />
+        <h5 className="mt-3 d-flex justify-content-center">
+          "Excellent"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OR
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Not Bad"
+        </h5>
+
+        {/* list section  */}
+        <ListContainer movieList={movieList} handleOnDelete={handleOnDelete} />
+      </div>
     </div>
   );
 }
